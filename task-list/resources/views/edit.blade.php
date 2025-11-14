@@ -10,7 +10,7 @@
 @endsection
 @section('content')
 {{ $errors }}
-<form method="POST" action="{{ route('tasks.update', ['id' => $task->id]) }}">
+<form method="POST" action="{{ route('tasks.update', ['task' => $task->id]) }}">
     @csrf {{-- cross site request forgery --}}
     @method('PUT')
     <div>
