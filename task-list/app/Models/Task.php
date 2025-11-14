@@ -11,5 +11,10 @@ class Task extends Model
         'title', 'description', 'long_description', 'completed',
     ];
         //protected $guarded = ['pasword']
+        public function toggleComplete(){
+             $this->completed = !$this->completed;
+             $this->save();
+
+        }
     
 }
