@@ -1,0 +1,34 @@
+/* src/components/OrderSummary.css */
+
+.order-summary {
+  margin-top: 1.5rem;
+}
+
+/* Mensaje de carga */
+.order-summary__loading {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+/* Mensaje de error */
+.order-summary__error {
+  color: #b91c1c;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+/* Card de resultados */
+.order-summary__card {
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.order-summary__card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}

@@ -1,74 +1,101 @@
-Facturify --- Orders Processing System (Laravel 11 + React + MySQL)
+# Facturify – Prueba Técnica MID Fullstack (PHP/Python + React TS)
 
-Este proyecto implementa un sistema para procesar órdenes,
-calcular totales, aplicar descuentos y almacenar la información en una
-base de datos MySQL.\
-El frontend en React consume la API desarrollada en Laravel 11.
-Base de datos MySQL en Docker
-Esto permite:
+Este proyecto implementa una calculadora de órdenes con:
 
-Aislar el ambiente
+- Backend: Laravel 11 (API REST para calcular la orden).
+- Frontend: React + TypeScript (Vite).
+- Base de datos: MySQL en Docker, con Adminer para inspeccionar la BD.
 
-Evitar conflictos con otras versiones de MySQL instaladas
+## 1. Requisitos previos
 
-Portabilidad del proyecto
+Antes de empezar, necesitas tener instalado:
 
-Cálculo en un “Service” separado
-Mejora mantenibilidad, testability y claridad de la lógica.
+- Docker Desktop
+- PHP 8.x
+- Composer
+- Node.js 18+ (incluye npm)
+- Git
 
-Uso de factories y seeders avanzados
-Para generar datos coherentes que representen casos reales.
+## 2. Estructura del proyecto
 
-Frontend separado (React + TS)
-Para simular una arquitectura real de microservicios/API + cliente
+facturify/
+├── backend/
+├── frontend/
+└── docker-compose.yml
 
----
+## 3. Levantar la base de datos con Docker
 
-## Estructura del Proyecto
+En la raíz del proyecto:
 
-    facturify/
-      backend/     API REST en Laravel 11
-      frontend/    Cliente web en React + TypeScript
+docker-compose up -d
 
----
+Esto levanta MySQL en el puerto 3308 y Adminer en http://localhost:8082.
 
-## 1. Cómo correr el proyecto
+### Datos de conexión para Adminer
 
-## Backend (Laravel 11)
+System: MySQL  
+Server: mysql-orders  
+User: laravel  
+Password: secret  
+Database: orders_api
 
-### Instalación:
+## 4. Backend – Laravel
 
-```bash
-cd facturify/backend
+cd backend
+composer install
+
+cp .env.example .env
+
+Configurar .env:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3308
+DB_DATABASE=orders_api
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+
+php artisan key:generate  
+php artisan migrate --seed  
+php artisan serve --host=127.0.0.1 --port=8000
+
+## 5. Frontend – React + TypeScript
+
+cd frontend  
+npm install
+
+Crear archivo .env:
+
+VITE_API_BASE_URL=http://127.0.0.1:8000/api
+
+npm run dev
+
+Frontend disponible en http://localhost:5173.
+
+## 6. Flujo completo
+
+git clone <repo>
+cd facturify
+
+docker-compose up -d
+
+cd backend
 cp .env.example .env
 composer install
 php artisan key:generate
-```
-
-### Ejecutar migraciones y seeders:
-
-```bash
 php artisan migrate --seed
-```
-
-### Levantar servidor:
-
-```bash
 php artisan serve
-```
 
----
-
-## Frontend (React + TypeScript)
-
-```bash
-cd facturify/frontend
+cd ../frontend
 npm install
 npm run dev
-```
 
----
+## 7. Arquitectura del código
 
+Backend: rutas en routes/api.php y lógica en OrderController.  
+Frontend: componentes React y hook useOrdersApi.
 
+## 8. Problemas comunes
 
-
+- Error de BD: verificar puerto 3308 y que Docker esté corriendo.
+- Error en frontend: revisar que backend esté en 127.0.0.1:8000 y que la variable VITE_API_BASE_URL esté bien configurada.
