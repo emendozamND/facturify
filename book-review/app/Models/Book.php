@@ -1,13 +1,9 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-
-
 class Book extends Model
 {
     use HasFactory;
@@ -52,5 +48,29 @@ class Book extends Model
         } elseif($from && $to){
            $query-> whereBetween('created_at', [$from, $to]);
         }
+    }
+    public function scopePopularLastMonth(Builder $query): Builder |QueryBuilder
+    {
+        return $query->popular(now()->subMonth(), now())
+            ->highestRated(now()->subMonth(), now())
+            ->minReviews(2);
+    }
+      public function scopePopularLast6Month(Builder $query): Builder |QueryBuilder
+    {
+        return $query->popular(now()->subMonths(6), now())
+            ->highestRated(now()->subMonths(6), now())
+            ->minReviews(5);
+    }
+        public function scopehighestRatedLastMonth(Builder $query): Builder |QueryBuilder
+    {
+        return $query->highestRated(now()->subMonth(), now())
+            ->highestRated(now()->subMonth(), now())
+            ->minReviews(2);
+    }
+            public function scopehighestRatedLast6Months(Builder $query): Builder |QueryBuilder
+    {
+        return $query->highestRated(now()->subMonths(6), now())
+            ->highestRated(now()->subMonths(6), now())
+            ->minReviews(2);
     }
 }
